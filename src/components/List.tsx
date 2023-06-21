@@ -44,15 +44,19 @@ export default function List(props: any) {
 
 	const [page, setPage] = useState(getInitialPage())
 	const [search, setSearch] = useState(getWindowParam('strategy') || 'latest')
+	// input var
 	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
-	
+	// strategy var
+	const [personalHandleStrategy, setPersonalHandleStrategy] = useState('')
+
 
 	const filterData = useCallback((s: string) => {
 		setWindowParam('strategy', s)
 		setWindowParam('personalHandle', personalHandle)
+		setPersonalHandleStrategy(personalHandle)
 		setSearch(s)
 		setPage(1)
-	}, [])
+	}, [personalHandle])
 
 
 	useEffect(() => {
@@ -62,7 +66,7 @@ export default function List(props: any) {
 		}
 
 		run()
-	}, [page, search])
+	}, [page, search, personalHandleStrategy])
 
 
 	return (
@@ -115,10 +119,10 @@ export default function List(props: any) {
 				<br />
 				<div>
 					{[
-						{name: 'Recent', strategy: 'recent'}, 
-						{name: 'Popular', strategy: 'popular'}, 
-						{name: 'Recommended', strategy: 'recommended'},
-						{name: 'Crowdsourced', strategy: 'crowdsourced'}
+						{ name: 'Recent', strategy: 'recent' },
+						{ name: 'Popular', strategy: 'popular' },
+						{ name: 'Recommended', strategy: 'recommended' },
+						{ name: 'Crowdsourced', strategy: 'crowdsourced' }
 					].map(btn => {
 						return <div
 							onClick={() => filterData(btn.strategy)}
@@ -135,14 +139,21 @@ export default function List(props: any) {
 							const v = e.target.value.toLowerCase()
 							setPersonalHandle(v)
 						}}
+						onKeyDown={(e) => {
+							if (e.keyCode !== 13) {
+								return
+							}
+
+							filterData('personal')
+						}}
 						className="strategy-input"
 						type="text" placeholder="Enter your handle" />
 					<div
 
 						onClick={() => filterData('personal')}
 						className={"strategy-btn" + (search === 'personal' ? ' active-strategy-btn' : '')}
-						style={{ textTransform: 'capitalize', marginRight: 20 }}>
-						Personal</div>
+						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
+						Following</div>
 				</div>
 				<div className="scroll" style={{ marginTop: 10 }}>
 					<div className="profiles-container">
