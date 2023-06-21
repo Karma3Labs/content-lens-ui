@@ -60,7 +60,15 @@ export async function getSuggestedPostsByName(name: string) {
 		// .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
-export async function getFeedPostsByName(strategy: string) {
+export async function getFeedPostsByName(strategy: string, personalHandle?: string) {
+
+	if (strategy === 'personal') {
+		const results = await fetch(`${backendUrl}/feed/${strategy}/${personalHandle}`)
+		.then((r: any) => r.json())
+
+			return results
+	}
+
 
 	const results = await fetch(`${backendUrl}/feed/${strategy}`)
 		.then((r: any) => r.json())

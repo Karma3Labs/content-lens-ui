@@ -126,6 +126,25 @@
   --posts-border-color: lightgray;
 }
 
+.strategy-input-wrapper {
+  width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.strategy-input {
+  width: 600px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding-left: 15px;
+  box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #3c4043;
+  
+}
+
 .strategy-btn {
   cursor: pointer;
   align-items: center;
