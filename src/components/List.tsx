@@ -115,9 +115,9 @@ export default function List(props: any) {
 				<br />
 				<div>
 					{[
-						{name: 'Recent', strategy: 'latest'}, 
-						{name: 'Popular', strategy: 'engagement-viralPosts'}, 
-						{name: 'Recommended', strategy: 'ml-xgb-followship'},
+						{name: 'Recent', strategy: 'recent'}, 
+						{name: 'Popular', strategy: 'popular'}, 
+						{name: 'Recommended', strategy: 'recommended'},
 						{name: 'Crowdsourced', strategy: 'crowdsourced'}
 					].map(btn => {
 						return <div
