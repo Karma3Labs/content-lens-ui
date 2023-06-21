@@ -36,7 +36,8 @@ export const Post = (props: any) => {
     return <div className="post">
         <div className="post-body">
         <b><a style={{color: 'black'}} href={`https://lenscan.io/publication/${post.postId}`} target="_blank" rel="noreferrer">
-            {post.handle}</a></b>&nbsp;{ago}<br />
+            {post.handle}</a></b>&nbsp;{ago}&nbsp;
+            <span style={{color: 'gray', fontWeight: 'bold', fontSize: 14}}>(Profile Rank: {post.rank})</span><br />
             {!hideImage && image && <div className="post-img-container">
                 <img className="post-img" src={image} onError={() => setHideImage(true)} alt={details.name}/>
             </div>}
