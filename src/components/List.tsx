@@ -43,7 +43,7 @@ export default function List(props: any) {
 	})
 
 	const [page, setPage] = useState(getInitialPage())
-	const [search, setSearch] = useState(getWindowParam('strategy') || 'latest')
+	const [search, setSearch] = useState(getWindowParam('strategy') || 'recent')
 	// input var
 	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
 	// strategy var
