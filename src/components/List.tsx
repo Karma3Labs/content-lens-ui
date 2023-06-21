@@ -117,7 +117,8 @@ export default function List(props: any) {
 					{[
 						{name: 'Recent', strategy: 'latest'}, 
 						{name: 'Popular', strategy: 'engagement-viralPosts'}, 
-						{name: 'Recommended', strategy: 'ml-xgb-followship'}
+						{name: 'Recommended', strategy: 'ml-xgb-followship'},
+						{name: 'Crowdsourced', strategy: 'crowdsourced'}
 					].map(btn => {
 						return <div
 							onClick={() => filterData(btn.strategy)}
