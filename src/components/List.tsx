@@ -15,9 +15,9 @@ import { Post } from './Post'
 
 const isFeed = () => true // window.location.pathname.indexOf('/feed') !== -1
 
-export const loader = async (page: number, search: string) => {
+export const loader = async (page: number, search: string, personalHandle?: string) => {
 	const [results] = await Promise.all([
-		isFeed() ? getFeedPostsByName(search) : getSuggestedPostsByName(search),
+		isFeed() ? getFeedPostsByName(search, personalHandle) : getSuggestedPostsByName(search),
 	])
 
 	const data = {
@@ -43,10 +43,13 @@ export default function List(props: any) {
 	})
 
 	const [page, setPage] = useState(getInitialPage())
-	const [search, setSearch] = useState(getWindowParam('strategy') || 'recent')
+	const [search, setSearch] = useState(getWindowParam('strategy') || 'latest')
+	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
+	
 
 	const filterData = useCallback((s: string) => {
 		setWindowParam('strategy', s)
+		setWindowParam('personalHandle', personalHandle)
 		setSearch(s)
 		setPage(1)
 	}, [])
@@ -54,7 +57,7 @@ export default function List(props: any) {
 
 	useEffect(() => {
 		const run = async () => {
-			const d = await loader(page, search)
+			const d = await loader(page, search, personalHandle)
 			setData(d)
 		}
 
@@ -109,22 +112,37 @@ export default function List(props: any) {
 				</>}
 			</header>
 			<div className="container">
-					<br/>
+				<br />
 				<div>
 					{[
-						{name: 'recent', strategy: 'recent'}, 
-						{name: 'popular', strategy: 'popular'}, 
-						{name: 'recommended', strategy: 'recommended'},
-						{name: 'crowdsourced', strategy: 'crowdsourced'},
+						{name: 'Recent', strategy: 'latest'}, 
+						{name: 'Popular', strategy: 'engagement-viralPosts'}, 
+						{name: 'Recommended', strategy: 'ml-xgb-followship'}
 					].map(btn => {
-						return <div 
-						onClick={() => filterData(btn.strategy)}
-						className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')}
-						style={{textTransform: 'capitalize', marginRight: 20}}>
+						return <div
+							onClick={() => filterData(btn.strategy)}
+							className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')}
+							style={{ textTransform: 'capitalize', marginRight: 20 }}>
 							{btn.name}</div>
 					})}
 				</div>
-				<br/>
+				<br />
+				<div className="strategy-input-wrapper">
+					<input
+						value={personalHandle}
+						onChange={(e) => {
+							const v = e.target.value.toLowerCase()
+							setPersonalHandle(v)
+						}}
+						className="strategy-input"
+						type="text" placeholder="Enter your handle" />
+					<div
+
+						onClick={() => filterData('personal')}
+						className={"strategy-btn" + (search === 'personal' ? ' active-strategy-btn' : '')}
+						style={{ textTransform: 'capitalize', marginRight: 20 }}>
+						Personal</div>
+				</div>
 				<div className="scroll" style={{ marginTop: 10 }}>
 					<div className="profiles-container">
 						{data.results.map((e, i) => {
