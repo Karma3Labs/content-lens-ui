@@ -11,7 +11,8 @@ import HeaderLinks from './HeaderLinks'
 import { setWindowParam, getWindowParam, tweet } from '../utils'
 import { Search } from './Search'
 import { Post } from './Post'
-
+import { useLoaderProvider } from './loader/LoaderProvider'
+import { Tooltip } from './Tooltip'
 
 const isFeed = () => true // window.location.pathname.indexOf('/feed') !== -1
 
@@ -49,6 +50,8 @@ export default function List(props: any) {
 	// strategy var
 	const [personalHandleStrategy, setPersonalHandleStrategy] = useState('')
 
+	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
+
 
 	const filterData = useCallback((s: string) => {
 		setWindowParam('strategy', s)
@@ -60,9 +63,13 @@ export default function List(props: any) {
 
 
 	useEffect(() => {
+		loaderActions({ type: 'SET_LOADING', isLoading: true })
 		const run = async () => {
-			const d = await loader(page, search, personalHandle)
-			setData(d)
+			try {
+				const d = await loader(page, search, personalHandle)
+				setData(d)
+			} catch (e) { }
+			loaderActions({ type: 'SET_LOADED', isLoading: false })
 		}
 
 		run()
@@ -119,16 +126,21 @@ export default function List(props: any) {
 				<br />
 				<div>
 					{[
-						{ name: 'Recent', strategy: 'recent' },
-						{ name: 'Popular', strategy: 'popular' },
-						{ name: 'Recommended', strategy: 'recommended' },
-						{ name: 'Crowdsourced', strategy: 'crowdsourced' }
+						{ name: 'Recent', strategy: 'recent', isDisabled: false },
+						{ name: 'Popular', strategy: 'popular', isDisabled: false },
+						{ name: 'Recommended', strategy: 'recommended', isDisabled: false },
+						{ name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: true }
 					].map(btn => {
-						return <div
-							onClick={() => filterData(btn.strategy)}
-							className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')}
-							style={{ textTransform: 'capitalize', marginRight: 20 }}>
-							{btn.name}</div>
+						return <>
+							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled}>
+								<div
+									onClick={() => !btn.isDisabled && filterData(btn.strategy)}
+									className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')
+										+ (btn.isDisabled ? ' disabled' : '')}
+									style={{ textTransform: 'capitalize', marginRight: 20 }}>
+									{btn.name}</div>
+							</Tooltip>
+						</>
 					})}
 				</div>
 				<br />
