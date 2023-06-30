@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 const PROFILE_URL = process.env.REACT_APP_PROFILE_URL || 'https://lens.k3l.io'
 const CONTENT_URL = process.env.REACT_APP_CONTENT_URL || 'https://content.lens.k3l.io'  
-console.log("From HeaderLinks.tsx",process.env)
+// console.log("From HeaderLinks.tsx",process.env)
 
 export default function HeaderLinks() {
   useEffect(() => {
