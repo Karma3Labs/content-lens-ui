@@ -132,7 +132,7 @@
   margin: auto;
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 1rem;
 
 }
 
@@ -145,6 +145,15 @@
   box-sizing: border-box;
   color: #3c4043;
   height: 40px;
+}
+
+.strategy-btn-wrapper {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .strategy-btn {
@@ -199,4 +208,16 @@
 .disabled {
   cursor: not-allowed;
   background-color: lightgrey;
+}
+
+@media (max-width: 768px) {
+  .profiles-container {
+    width: 100%;
+  }
+
+  .strategy-btn-wrapper {
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 25%;
+  }
 }
