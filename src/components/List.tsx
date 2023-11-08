@@ -124,7 +124,7 @@ export default function List(props: any) {
 			</header>
 			<div className="container">
 				<br />
-				<div>
+				<div className="strategy-btn-wrapper">
 					{[
 						{ name: 'Recent', strategy: 'recent', isDisabled: false },
 						{ name: 'Popular', strategy: 'popular', isDisabled: false },
