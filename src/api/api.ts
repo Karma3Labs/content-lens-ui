@@ -1,3 +1,14 @@
+export enum Strategy {
+	Personal = 'personal',
+	Recent = 'recent',
+	Popular = 'popular',
+	Recommended = 'recommended',
+	Crowdsourced = 'crowdsourced',
+	PhotographyAndArt = 'photoart',
+	NewComer = 'newcomer',
+	Spam = 'spam',
+}
+
 export interface Profile {
 	id: string,
 	timestamp: string,
@@ -121,7 +132,7 @@ export async function getFeedPostsByName(strategy: string, isV2: boolean, person
 		apiHost = 'https://lensv2-api.k3l.io'
 	}
 
-	if (strategy === 'personal') {
+	if (strategy === Strategy.Personal) {
 		const results = await fetch(`${apiHost}/feed/${strategy}/${personalHandle}`)
 		.then((r: any) => r.json())
 
@@ -129,7 +140,7 @@ export async function getFeedPostsByName(strategy: string, isV2: boolean, person
 	}
 
 	let url = `${apiHost}/feed/${strategy}`;
-	if (strategy === 'newcomer' || strategy === 'spam') {
+	if (strategy === Strategy.NewComer || strategy === Strategy.Spam) {
 		url = `${url}?rankLimit=999999`
 	}
 

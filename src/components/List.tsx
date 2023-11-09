@@ -3,7 +3,8 @@ import {
 	getFeedPostsByName,
 	getSuggestedPostsByName,
 	PER_PAGE,
-	Profile
+	Profile,
+	Strategy,
 } from '../api/api'
 
 import Pagination from './Pagination'
@@ -54,7 +55,7 @@ export default function List(props: any) {
 	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
 
 
-	const filterData = useCallback(({ strategy, isV2 }: { strategy: string, isV2: boolean }) => {
+	const filterData = useCallback(({ strategy, isV2 }: { strategy: Strategy, isV2: boolean }) => {
 		setWindowParam('strategy', strategy)
 		setWindowParam('personalHandle', personalHandle)
 		setWindowParam('isV2', isV2 ? 'true' : 'false');
@@ -129,13 +130,13 @@ export default function List(props: any) {
 				<br />
 				<div className="strategy-btn-wrapper">
 					{[
-						{ name: 'Recent', strategy: 'recent', isDisabled: false, isV2: false },
-						{ name: 'Popular', strategy: 'popular', isDisabled: false, isV2: false },
-						{ name: 'Recommended', strategy: 'recommended', isDisabled: false, isV2: false },
+						{ name: 'Recent', strategy: Strategy.Recent, isDisabled: false, isV2: false },
+						{ name: 'Popular', strategy: Strategy.Popular, isDisabled: false, isV2: false },
+						{ name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false, isV2: false },
 						// { name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: false, isV2: false }, // currently same result as recent
-						{ name: 'Photography & Art', strategy: 'photoart', isDisabled: false, isV2: true },
-						{ name: 'New Comer', strategy: 'newcomer', isDisabled: false, isV2: true },
-						{ name: 'Spam', strategy: 'spam', isDisabled: false, isV2: true },
+						{ name: 'Photography & Art', strategy: Strategy.PhotographyAndArt, isDisabled: false, isV2: true },
+						{ name: 'New Comer', strategy: Strategy.NewComer, isDisabled: false, isV2: true },
+						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false, isV2: true },
 					].map(btn => {
 						return <>
 							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled} key={btn.strategy}>
@@ -162,14 +163,14 @@ export default function List(props: any) {
 								return
 							}
 
-							filterData({ strategy: 'personal', isV2: false })
+							filterData({ strategy: Strategy.Personal, isV2: false })
 						}}
 						className="strategy-input"
 						type="text" placeholder="Enter your handle" />
 					<div
 
-						onClick={() => filterData({ strategy: 'personal', isV2: false })}
-						className={"strategy-btn" + (search === 'personal' ? ' active-strategy-btn' : '')}
+						onClick={() => filterData({ strategy: Strategy.Personal, isV2: false })}
+						className={"strategy-btn" + (search === Strategy.Personal ? ' active-strategy-btn' : '')}
 						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
 						Following</div>
 				</div>
