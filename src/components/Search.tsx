@@ -9,7 +9,7 @@ export const Search = (props: any) => {
     const [suggestions, setSuggestions] = useState([] as any)
 
     const handleSuggestionClick = (suggestion: any) => {
-        cb(suggestion)
+        cb({strategy: suggestion, isV2: false})
         setSearch(suggestion)
         setSuggestions([])
     }

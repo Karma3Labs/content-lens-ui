@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getContent, Content } from '../api/api'
+import { getContent, NormalizedContent } from '../api/api'
 import { ipfsGateway } from '../api/ipfs'
 import moment from 'moment'
 import Linkify from 'react-linkify';
@@ -7,7 +7,7 @@ import Linkify from 'react-linkify';
 export const Post = (props: any) => {
     const post = props.data
     // const isLast = props.isLast
-    const [details, setDetails] = useState({ tags: [''] } as Content)
+    const [details, setDetails] = useState({ tags: [''] } as NormalizedContent)
     const [hideImage, setHideImage] = useState(false)
 
     useEffect(() => {
