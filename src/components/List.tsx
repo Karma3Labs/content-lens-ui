@@ -133,7 +133,7 @@ export default function List(props: any) {
 						{ name: 'Recent', strategy: Strategy.Recent, isDisabled: false, isV2: true },
 						{ name: 'Popular', strategy: Strategy.Popular, isDisabled: false, isV2: true },
 						{ name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false, isV2: true },
-						{ name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: false, isV2: true }, 
+						{ name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false, isV2: true }, 
 						{ name: 'Photography & Art', strategy: Strategy.PhotographyAndArt, isDisabled: false, isV2: true },
 						{ name: 'New Comer', strategy: Strategy.NewComer, isDisabled: false, isV2: true },
 						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false, isV2: true },
