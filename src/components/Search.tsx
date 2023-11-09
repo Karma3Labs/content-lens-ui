@@ -8,17 +8,6 @@ export const Search = (props: any) => {
     const [search, setSearch] = useState(props.initialValue || '')
     const [suggestions, setSuggestions] = useState([] as any)
 
-    // useEffect(() => {
-    //     const fetchSuggestions = async () => {
-    //         if (search.length < 2) {
-    //             setSuggestions([])
-    //             return
-    //         }
-    //         setSuggestions([])
-    //     }
-    //     // fetchSuggestions()
-    // }, [search])
-
     const handleSuggestionClick = (suggestion: any) => {
         cb(suggestion)
         setSearch(suggestion)

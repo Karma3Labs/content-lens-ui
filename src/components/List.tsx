@@ -11,7 +11,8 @@ import HeaderLinks from './HeaderLinks'
 import { setWindowParam, getWindowParam, tweet } from '../utils'
 import { Search } from './Search'
 import { Post } from './Post'
-
+import { useLoaderProvider } from './loader/LoaderProvider'
+import { Tooltip } from './Tooltip'
 
 const isFeed = () => true // window.location.pathname.indexOf('/feed') !== -1
 
@@ -43,26 +44,36 @@ export default function List(props: any) {
 	})
 
 	const [page, setPage] = useState(getInitialPage())
-	const [search, setSearch] = useState(getWindowParam('strategy') || 'latest')
+	const [search, setSearch] = useState(getWindowParam('strategy') || 'recent')
+	// input var
 	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
-	
+	// strategy var
+	const [personalHandleStrategy, setPersonalHandleStrategy] = useState('')
+
+	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
+
 
 	const filterData = useCallback((s: string) => {
 		setWindowParam('strategy', s)
 		setWindowParam('personalHandle', personalHandle)
+		setPersonalHandleStrategy(personalHandle)
 		setSearch(s)
 		setPage(1)
-	}, [])
+	}, [personalHandle])
 
 
 	useEffect(() => {
+		loaderActions({ type: 'SET_LOADING', isLoading: true })
 		const run = async () => {
-			const d = await loader(page, search, personalHandle)
-			setData(d)
+			try {
+				const d = await loader(page, search, personalHandle)
+				setData(d)
+			} catch (e) { }
+			loaderActions({ type: 'SET_LOADED', isLoading: false })
 		}
 
 		run()
-	}, [page, search])
+	}, [page, search, personalHandleStrategy])
 
 
 	return (
@@ -113,18 +124,23 @@ export default function List(props: any) {
 			</header>
 			<div className="container">
 				<br />
-				<div>
+				<div className="strategy-btn-wrapper">
 					{[
-						{ name: 'Recent', strategy: 'latest' },
-						{ name: 'Popular', strategy: 'engagement-viralPosts' },
-						{ name: 'Recommended', strategy: 'ml-xgb-followship' },
-						{ name: 'Crowdsourced', strategy: 'crowdsourced' },
+						{ name: 'Recent', strategy: 'recent', isDisabled: false },
+						{ name: 'Popular', strategy: 'popular', isDisabled: false },
+						{ name: 'Recommended', strategy: 'recommended', isDisabled: false },
+						{ name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: false }
 					].map(btn => {
-						return <div
-							onClick={() => filterData(btn.strategy)}
-							className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')}
-							style={{ textTransform: 'capitalize', marginRight: 20 }}>
-							{btn.name}</div>
+						return <>
+							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled}>
+								<div
+									onClick={() => !btn.isDisabled && filterData(btn.strategy)}
+									className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')
+										+ (btn.isDisabled ? ' disabled' : '')}
+									style={{ textTransform: 'capitalize', marginRight: 20 }}>
+									{btn.name}</div>
+							</Tooltip>
+						</>
 					})}
 				</div>
 				<br />
@@ -135,14 +151,21 @@ export default function List(props: any) {
 							const v = e.target.value.toLowerCase()
 							setPersonalHandle(v)
 						}}
+						onKeyDown={(e) => {
+							if (e.keyCode !== 13) {
+								return
+							}
+
+							filterData('personal')
+						}}
 						className="strategy-input"
 						type="text" placeholder="Enter your handle" />
 					<div
 
 						onClick={() => filterData('personal')}
 						className={"strategy-btn" + (search === 'personal' ? ' active-strategy-btn' : '')}
-						style={{ textTransform: 'capitalize', marginRight: 20 }}>
-						Personal</div>
+						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
+						Following</div>
 				</div>
 				<div className="scroll" style={{ marginTop: 10 }}>
 					<div className="profiles-container">
