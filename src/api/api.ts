@@ -142,6 +142,8 @@ export async function getFeedPostsByName(strategy: string, isV2: boolean, person
 	let url = `${apiHost}/feed/${strategy}`;
 	if (strategy === Strategy.NewComer || strategy === Strategy.Spam) {
 		url = `${url}?rankLimit=999999`
+	} else if (strategy === Strategy.PhotographyAndArt) {
+		url = `${url}?rankLimit=500`
 	}
 
 	const results = await fetch(url)
