@@ -6,12 +6,67 @@ export interface Profile {
 	createdAt: string
 }
 
+enum MainContentFocus {
+	Mint = "MINT",
+	Image = "IMAGE",
+	TextOnly = "TEXT_ONLY",
+	Embed = "EMBED",
+	Video = "VIDEO",
+}
+
+interface ContentHeyOrOrb {
+	id: string,
+	appId: string; // "Hey", "orb"
+	locale: string,
+	mainContentFocus: MainContentFocus;
+	image?: {
+		item: string; // ipfs://
+		type: string; // "image/png"
+	},
+	title?: string;
+	content: string;
+	attachments?: [{
+		item: string; // ipfs://
+		type: string; // "image/png"
+		cover: string; // ipfs://
+	}],
+	video?: {
+		item: string; // "ipfs://
+		type: string; // "video/mp4",
+		duration: number;
+	},
+	embed?: string //
+}
+
 export interface Content {
-	image: string,
-	content: string,
+	image?: string,
+	content?: string,
 	tags: string[],
 	name: string,
 	external_url: string
+	lens?: ContentHeyOrOrb
+}
+
+export interface NormalizedContent {
+	image?: string,
+	content?: string,
+	tags: string[],
+	name: string,
+	external_url: string
+	title?: string;
+}
+
+function normalizeContent(content: Content): NormalizedContent {
+	let normalizeContent = {...content}
+
+	if (content.lens) {
+		normalizeContent.content = content.lens.content
+		if (content.lens.image) {
+			normalizeContent.image = content.lens.image.item
+		}
+	}
+
+	return normalizeContent
 }
 
 // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
@@ -88,13 +143,15 @@ export async function getFeedPostsByName(strategy: string, isV2: boolean, person
 
 export const getContent = async (contentUri: string) => {
 	if (contentUri.indexOf('ar://') !== -1) {
-		return resolveArLink(contentUri)
+		const content = await resolveArLink(contentUri)
+		return normalizeContent(content)
 	}
 
 	const results = await withRetry(() => fetch(contentUri))
 		.then((r: any) => r.json())
 	// @ts-ignore
-	return results
+
+	return normalizeContent(results)
 }
 
 // https://lens-api.k3l.io/suggest_posts\?handle\=willcollier.lens
