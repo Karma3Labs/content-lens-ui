@@ -60,17 +60,25 @@ export async function getSuggestedPostsByName(name: string) {
 		// .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
-export async function getFeedPostsByName(strategy: string, personalHandle?: string) {
+export async function getFeedPostsByName(strategy: string, isV2: boolean, personalHandle?: string,) {
+	let apiHost = backendUrl;
+	if (isV2) {
+		apiHost = 'https://lensv2-api.k3l.io'
+	}
 
 	if (strategy === 'personal') {
-		const results = await fetch(`${backendUrl}/feed/${strategy}/${personalHandle}`)
+		const results = await fetch(`${apiHost}/feed/${strategy}/${personalHandle}`)
 		.then((r: any) => r.json())
 
 			return results
 	}
 
+	let url = `${apiHost}/feed/${strategy}`;
+	if (strategy === 'newcomer' || strategy === 'spam') {
+		url = `${url}?rankLimit=999999`
+	}
 
-	const results = await fetch(`${backendUrl}/feed/${strategy}`)
+	const results = await fetch(url)
 		.then((r: any) => r.json())
 
 	return results
@@ -89,6 +97,6 @@ export const getContent = async (contentUri: string) => {
 	return results
 }
 
-// https://lens-api.k3l.io/suggest_posts\?handle\=willcollier.lens 
+// https://lens-api.k3l.io/suggest_posts\?handle\=willcollier.lens
 
 

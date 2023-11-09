@@ -16,9 +16,9 @@ import { Tooltip } from './Tooltip'
 
 const isFeed = () => true // window.location.pathname.indexOf('/feed') !== -1
 
-export const loader = async (page: number, search: string, personalHandle?: string) => {
+export const loader = async (page: number, search: string, isV2: boolean, personalHandle?: string) => {
 	const [results] = await Promise.all([
-		isFeed() ? getFeedPostsByName(search, personalHandle) : getSuggestedPostsByName(search),
+		isFeed() ? getFeedPostsByName(search, isV2, personalHandle) : getSuggestedPostsByName(search),
 	])
 
 	const data = {
@@ -49,15 +49,18 @@ export default function List(props: any) {
 	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
 	// strategy var
 	const [personalHandleStrategy, setPersonalHandleStrategy] = useState('')
+	const [isV2, setIsV2] = useState(getWindowParam('isV2') === 'true' || false)
 
 	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
 
 
-	const filterData = useCallback((s: string) => {
-		setWindowParam('strategy', s)
+	const filterData = useCallback(({ strategy, isV2 }: { strategy: string, isV2: boolean }) => {
+		setWindowParam('strategy', strategy)
 		setWindowParam('personalHandle', personalHandle)
+		setWindowParam('isV2', isV2 ? 'true' : 'false');
 		setPersonalHandleStrategy(personalHandle)
-		setSearch(s)
+		setSearch(strategy)
+		setIsV2(isV2)
 		setPage(1)
 	}, [personalHandle])
 
@@ -66,14 +69,14 @@ export default function List(props: any) {
 		loaderActions({ type: 'SET_LOADING', isLoading: true })
 		const run = async () => {
 			try {
-				const d = await loader(page, search, personalHandle)
+				const d = await loader(page, search, isV2, personalHandle)
 				setData(d)
 			} catch (e) { }
 			loaderActions({ type: 'SET_LOADED', isLoading: false })
 		}
 
 		run()
-	}, [page, search, personalHandleStrategy])
+	}, [page, search, personalHandleStrategy, loaderActions, personalHandle, isV2])
 
 
 	return (
@@ -126,15 +129,18 @@ export default function List(props: any) {
 				<br />
 				<div className="strategy-btn-wrapper">
 					{[
-						{ name: 'Recent', strategy: 'recent', isDisabled: false },
-						{ name: 'Popular', strategy: 'popular', isDisabled: false },
-						{ name: 'Recommended', strategy: 'recommended', isDisabled: false },
-						{ name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: false }
+						{ name: 'Recent', strategy: 'recent', isDisabled: false, isV2: false },
+						{ name: 'Popular', strategy: 'popular', isDisabled: false, isV2: false },
+						{ name: 'Recommended', strategy: 'recommended', isDisabled: false, isV2: false },
+						// { name: 'Crowdsourced', strategy: 'crowdsourced', isDisabled: false, isV2: false }, // currently same result as recent
+						{ name: 'Photography & Art', strategy: 'photoart', isDisabled: false, isV2: true },
+						{ name: 'New Comer', strategy: 'newcomer', isDisabled: false, isV2: true },
+						{ name: 'Spam', strategy: 'spam', isDisabled: false, isV2: true },
 					].map(btn => {
 						return <>
-							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled}>
+							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled} key={btn.strategy}>
 								<div
-									onClick={() => !btn.isDisabled && filterData(btn.strategy)}
+									onClick={() => !btn.isDisabled && filterData({ strategy: btn.strategy, isV2: btn.isV2 })}
 									className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')
 										+ (btn.isDisabled ? ' disabled' : '')}
 									style={{ textTransform: 'capitalize', marginRight: 20 }}>
@@ -156,13 +162,13 @@ export default function List(props: any) {
 								return
 							}
 
-							filterData('personal')
+							filterData({ strategy: 'personal', isV2: false })
 						}}
 						className="strategy-input"
 						type="text" placeholder="Enter your handle" />
 					<div
 
-						onClick={() => filterData('personal')}
+						onClick={() => filterData({ strategy: 'personal', isV2: false })}
 						className={"strategy-btn" + (search === 'personal' ? ' active-strategy-btn' : '')}
 						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
 						Following</div>
