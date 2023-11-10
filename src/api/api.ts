@@ -88,7 +88,7 @@ export const PER_PAGE = 20
 
 // process.env.NODE_ENV === 'development'
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://lens-api.k3l.io'
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://lensv2-api.k3l.io'
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000/api'
 
 async function resolveArLink(link: string) {
@@ -126,17 +126,14 @@ export async function getSuggestedPostsByName(name: string) {
 		// .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
-export async function getFeedPostsByName(strategy: string, isV2: boolean, personalHandle?: string,) {
+export async function getFeedPostsByName(strategy: string, personalHandle?: string) {
 	let apiHost = backendUrl;
-	if (isV2) {
-		apiHost = 'https://lensv2-api.k3l.io'
-	}
 
 	if (strategy === Strategy.Personal) {
 		const results = await fetch(`${apiHost}/feed/${strategy}/${personalHandle}`)
 		.then((r: any) => r.json())
 
-			return results
+		return results
 	}
 
 	let url = `${apiHost}/feed/${strategy}`;
