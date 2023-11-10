@@ -134,7 +134,7 @@ export default function List(props: any) {
 						// { name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false },
 						// Crowdsourced is hard to explain. Commenting out for now for DevConnect.
 						// { name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false },
-						{ name: 'Photography & Art', strategy: Strategy.PhotographyAndArt, isDisabled: false },
+						{ name: 'Photo & Arts Community', strategy: Strategy.PhotographyAndArt, isDisabled: false },
 						{ name: 'Newcomer', strategy: Strategy.NewComer, isDisabled: false },
 						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false },
 					].map(btn => {
