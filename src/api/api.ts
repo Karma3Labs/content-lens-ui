@@ -140,7 +140,7 @@ export async function getFeedPostsByName(strategy: string, personalHandle?: stri
 	if (strategy === Strategy.NewComer || strategy === Strategy.Spam) {
 		url = `${url}?rankLimit=999999`
 	} else if (strategy === Strategy.PhotographyAndArt) {
-		url = `${url}?rankLimit=200`
+		url = `${url}?rankLimit=200&contentFocus=IMAGE&contentFocus=VIDEO`
 	}
 
 	const results = await fetch(url)
