@@ -166,13 +166,13 @@ export default function List(props: any) {
 								return
 							}
 
-							filterData({ strategy: Strategy.Personal, isV2: false })
+							filterData({ strategy: Strategy.Personal, isV2: true })
 						}}
 						className="strategy-input"
 						type="text" placeholder="Enter your handle" />
 					<div
 
-						onClick={() => filterData({ strategy: Strategy.Personal, isV2: false })}
+						onClick={() => filterData({ strategy: Strategy.Personal, isV2: true })}
 						className={"strategy-btn" + (search === Strategy.Personal ? ' active-strategy-btn' : '')}
 						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
 						Following</div>
