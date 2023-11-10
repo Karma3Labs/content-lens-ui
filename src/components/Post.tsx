@@ -35,7 +35,7 @@ export const Post = (props: any) => {
 
     return <div className="post">
         <div className="post-body">
-        <b><a style={{color: 'black'}} href={`https://lenscan.io/publication/${post.postId}`} target="_blank" rel="noreferrer">
+        <b><a style={{color: 'black'}} href={`https://hey.xyz/posts/${post.postId}`} target="_blank" rel="noreferrer">
             {post.handle}</a></b>
             <span style={{color: 'gray', fontWeight: 'normal', fontSize: 14}}>
                 &nbsp;{ago}&nbsp;(Profile Rank: {post.rank})</span><br />
