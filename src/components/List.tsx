@@ -131,11 +131,14 @@ export default function List(props: any) {
 				<div className="strategy-btn-wrapper">
 					{[
 						{ name: 'Recent', strategy: Strategy.Recent, isDisabled: false, isV2: true },
-						{ name: 'Popular', strategy: Strategy.Popular, isDisabled: false, isV2: true },
-						{ name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false, isV2: true },
-						{ name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false, isV2: true }, 
+						// Popular is very similar to Photography & Art, so commenting out.
+						// { name: 'Popular', strategy: Strategy.Popular, isDisabled: false, isV2: true },
+						// Recommended is hard to explain. Commenting out for now for DevConnect.
+						// { name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false, isV2: true },
+						// Crowdsourced is hard to explain. Commenting out for now for DevConnect.
+						// { name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false, isV2: true }, 
 						{ name: 'Photography & Art', strategy: Strategy.PhotographyAndArt, isDisabled: false, isV2: true },
-						{ name: 'New Comer', strategy: Strategy.NewComer, isDisabled: false, isV2: true },
+						{ name: 'Newcomer', strategy: Strategy.NewComer, isDisabled: false, isV2: true },
 						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false, isV2: true },
 					].map(btn => {
 						return <>
