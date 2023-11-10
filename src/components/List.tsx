@@ -50,7 +50,7 @@ export default function List(props: any) {
 	const [personalHandle, setPersonalHandle] = useState(getWindowParam('personalHandle') || '')
 	// strategy var
 	const [personalHandleStrategy, setPersonalHandleStrategy] = useState('')
-	const [isV2, setIsV2] = useState(getWindowParam('isV2') === 'true' || false)
+	const [isV2, setIsV2] = useState<boolean>(getWindowParam('isV2') === 'true' || true)
 
 	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
 
