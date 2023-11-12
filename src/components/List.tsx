@@ -8,7 +8,7 @@ import {
 } from '../api/api'
 
 import Pagination from './Pagination'
-import HeaderLinks from './HeaderLinks'
+// import HeaderLinks from './HeaderLinks'
 import { setWindowParam, getWindowParam, tweet } from '../utils'
 import { Search } from './Search'
 import { Post } from './Post'
@@ -83,51 +83,48 @@ export default function List(props: any) {
 	return (
 		<main>
 			<header>
-				<HeaderLinks />
-				<div className="logos logos-grid">
-					<div className='logo-container-1'>
+				{/* <HeaderLinks /> */}
+				<div className='header-titles'>
+					<div className="logos logos-flex">
 						<a href="https://k3l.io" target="_blank" rel="noreferrer">
 							<img
 								width="180px"
-								src="/images/logo.svg"
+								src="/images/k3l_logo_transparent.png"
 								draggable="false"
 								alt="Karma3Labs Logo"
 							/>
 						</a>
-					</div>
-					<div className="line"></div>
-					<div className='logo-container-2'>
+						<div className="line"></div>
 						<a href="https://www.lens.xyz/" target="_blank" rel="noreferrer">
 							<img
 								width="50px"
-								src="/images/lens.svg"
+								src="/images/lens_logo_transparent.svg"
 								draggable="false"
 								alt="Lens Logo"
 							/>
 						</a>
 					</div>
-				</div>
-				<div className="title">
-					<h1>Content Feed</h1>
-					<h6>Openly Verifiable Content Feed powered by EigenTrust</h6>
-				</div>
-				{!isFeed() && <>
-					<div className="strategies">
-
+					<div className="title">
+						<h1 className='header-text'>Content Feed</h1>
+						<h6 className='subheader-text'>Openly Verifiable Content Feed powered by EigenTrust</h6>
 					</div>
-					<Search onSearch={filterData} initialValue={search} />
+					{!isFeed() && <>
+						<div className="strategies">
+
+						</div>
+						<Search onSearch={filterData} initialValue={search} />
 
 
-					<button className="twitter"
-						style={{ marginTop: 30 }}
-						onClick={() => tweet('Check out the Open NFT Rankings here:')}
-					>
-						<i></i>&nbsp;Share
-					</button>
-				</>}
+						<button className="twitter"
+							style={{ marginTop: 30 }}
+							onClick={() => tweet('Check out the Open NFT Rankings here:')}
+						>
+							<i></i>&nbsp;Share
+						</button>
+					</>}
+				</div>
 			</header>
 			<div className="container">
-				<br />
 				<div className="strategy-btn-wrapper">
 					{[
 						{ name: 'Recent', strategy: Strategy.Recent, isDisabled: false, isV2: true },
@@ -136,25 +133,25 @@ export default function List(props: any) {
 						// Recommended is hard to explain. Commenting out for now for DevConnect.
 						// { name: 'Recommended', strategy: Strategy.Recommended, isDisabled: false, isV2: true },
 						// Crowdsourced is hard to explain. Commenting out for now for DevConnect.
-						// { name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false, isV2: true }, 
-						{ name: 'Photography & Art', strategy: Strategy.PhotographyAndArt, isDisabled: false, isV2: true },
+						// { name: 'Crowdsourced', strategy: Strategy.Crowdsourced, isDisabled: false, isV2: true },
+						{ name: 'Photography', strategy: Strategy.PhotographyAndArt, isDisabled: false, isV2: true },
 						{ name: 'Newcomer', strategy: Strategy.NewComer, isDisabled: false, isV2: true },
 						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false, isV2: true },
 					].map(btn => {
 						return <>
 							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled} key={btn.strategy}>
-								<div
+								<button
+									className={"strategy-btn" + (search === btn.strategy ? 'strategy-btn active-strategy-btn' : '')
+									+ (btn.isDisabled ? ' disabled' : '')}
 									onClick={() => !btn.isDisabled && filterData({ strategy: btn.strategy, isV2: btn.isV2 })}
-									className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')
-										+ (btn.isDisabled ? ' disabled' : '')}
-									style={{ textTransform: 'capitalize', marginRight: 20 }}>
-									{btn.name}</div>
+								>
+									{btn.name}
+								</button>
 							</Tooltip>
 						</>
 					})}
 				</div>
-				<br />
-				<div className="strategy-input-wrapper">
+				{/* <div className="strategy-input-wrapper">
 					<input
 						value={personalHandle}
 						onChange={(e) => {
@@ -176,20 +173,16 @@ export default function List(props: any) {
 						className={"strategy-btn" + (search === Strategy.Personal ? ' active-strategy-btn' : '')}
 						style={{ textTransform: 'capitalize', marginLeft: -410, height: 32, marginTop: 4, boxShadow: 'none', border: '1px solid lightgrey' }}>
 						Following</div>
-				</div>
-				<div className="scroll" style={{ marginTop: 10 }}>
+				</div> */}
+				<div className="scroll feed-wrapper">
 					<div className="profiles-container">
 						{data.results.map((e, i) => {
 							const isLast = data.results.length === i + 1
 
-							return <div key={e.id} className="post-wrapper">
-
-								<Post
-									key={e.postId}
-									isLast={isLast}
-									data={e} />
-
-							</div>
+							return <Post
+								key={e.postId}
+								isLast={isLast}
+								data={e} />
 						})
 
 						}
