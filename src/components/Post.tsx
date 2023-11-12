@@ -12,7 +12,7 @@ export const Post = (props: any) => {
 
     useEffect(() => {
         const run = async () => {
-            console.log(post.contentUri)
+            if (!post.contentUri) return
             const d = await getContent(post.contentUri)
             setDetails(d)
         }
@@ -43,7 +43,7 @@ export const Post = (props: any) => {
                 <img className="post-img" src={image} onError={() => setHideImage(true)} alt={details.name}/>
             </div>}
             <div className="post-desc"><Linkify>{details.content}</Linkify></div>
-            <div className="post-hashtag">{details.tags && details.tags.filter(t => !!t).map(t => <span>#{t}&nbsp;</span>)}</div>
+            <div className="post-hashtag">{details.tags && details.tags.filter(t => !!t).map(t => <span key={t}>#{t}&nbsp;</span>)}</div>
         </div>
         <div className="post-footer">
             <span>Comments:&nbsp;</span><b>{post.commentsCount}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

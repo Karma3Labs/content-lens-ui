@@ -1,3 +1,5 @@
+import { ipfsGateway } from '../api/ipfs'
+
 export enum Strategy {
 	Personal = 'personal',
 	Recent = 'recent',
@@ -46,7 +48,8 @@ interface ContentHeyOrOrb {
 		type: string; // "video/mp4",
 		duration: number;
 	},
-	embed?: string //
+	embed?: string;
+	tags?: string[];
 }
 
 export interface Content {
@@ -75,6 +78,9 @@ function normalizeContent(content: Content): NormalizedContent {
 		if (content.lens.image) {
 			normalizeContent.image = content.lens.image.item
 		}
+		if (content.lens.tags && content.lens.tags.length > 0) {
+			normalizeContent.tags = content.lens.tags
+		}
 	}
 
 	return normalizeContent
@@ -100,6 +106,19 @@ async function resolveArLink(link: string) {
 	}
 	// Parse the link using the Arweave SDK
 	const transaction = await fetch(arweaveGateway + '/' + arLink).then(r => r.json())
+	return transaction
+}
+
+async function resolveIPFSLink(link: string) {
+	let ipfsLink
+	if (link.indexOf('ipfs://') !== -1) {
+		ipfsLink = link.split('ipfs://')[1]
+	} else {
+		ipfsLink = link
+	}
+
+	// Parse the link using the IPFS
+	const transaction = await fetch(ipfsGateway + '/' + ipfsLink).then(r => r.json())
 	return transaction
 }
 
@@ -152,6 +171,11 @@ export async function getFeedPostsByName(strategy: string, personalHandle?: stri
 }
 
 export const getContent = async (contentUri: string) => {
+	if (contentUri.indexOf('ipfs://') !== -1) {
+		const content = await resolveIPFSLink(contentUri)
+		return normalizeContent(content)
+	}
+
 	if (contentUri.indexOf('ar://') !== -1) {
 		const content = await resolveArLink(contentUri)
 		return normalizeContent(content)
