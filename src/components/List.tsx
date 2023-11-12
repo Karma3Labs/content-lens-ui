@@ -140,12 +140,13 @@ export default function List(props: any) {
 					].map(btn => {
 						return <>
 							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled} key={btn.strategy}>
-								<div
+								<button
 									onClick={() => !btn.isDisabled && filterData({ strategy: btn.strategy })}
 									className={"strategy-btn" + (search === btn.strategy ? ' active-strategy-btn' : '')
 										+ (btn.isDisabled ? ' disabled' : '')}
 									style={{ textTransform: 'capitalize', marginRight: 20 }}>
-									{btn.name}</div>
+									{btn.name}
+								</button>
 							</Tooltip>
 						</>
 					})}
