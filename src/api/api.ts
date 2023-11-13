@@ -84,7 +84,8 @@ export const getContent = async (contentUri: string) => {
 	}
 	var opts = {
 		headers: {
-			'mode':'cors' // post media hosted on s3 and arweave.net end in cors errors
+			mode:"cors", // post media hosted on s3 and arweave.net end in cors errors
+			redirect: "follow"
 		}
 	}
 	const results = await withRetry(() => fetch(contentUri, opts))
