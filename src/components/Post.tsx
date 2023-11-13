@@ -12,7 +12,7 @@ export const Post = (props: any) => {
 
     useEffect(() => {
         const run = async () => {
-            console.log(post.contentUri)
+            if (!post.contentUri) return
             const d = await getContent(post.contentUri)
             setDetails(d)
         }
