@@ -82,8 +82,12 @@ export const getContent = async (contentUri: string) => {
 	if (contentUri.indexOf('ar://') !== -1) {
 		return resolveArLink(contentUri)
 	}
-
-	const results = await withRetry(() => fetch(contentUri))
+	var opts = {
+		headers: {
+			'mode':'no-cors' // posts through Yup app use s3 urls which require no-cors
+		}
+	}
+	const results = await withRetry(() => fetch(contentUri, opts))
 		.then((r: any) => r.json())
 	// @ts-ignore
 	return results
