@@ -135,7 +135,7 @@ export default function List(props: any) {
 						{ name: 'Newcomer', strategy: Strategy.NewComer, isDisabled: false },
 						{ name: 'Spam', strategy: Strategy.Spam, isDisabled: false },
 					].map(btn => {
-						return <>
+						return (
 							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled} key={btn.strategy}>
 								<button
 									className={"strategy-btn" + (search === btn.strategy ? 'strategy-btn active-strategy-btn' : '')
@@ -145,7 +145,7 @@ export default function List(props: any) {
 									{btn.name}
 								</button>
 							</Tooltip>
-						</>
+						)
 					})}
 				</div>
 				{/* <div className="strategy-input-wrapper">
