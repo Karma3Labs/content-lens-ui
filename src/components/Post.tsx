@@ -43,7 +43,7 @@ export const Post = (props: any) => {
                         </div>
                         <div className="post-profile-info">
                             <span className='post-profile-info--handle'>
-                                <a style={{color: 'black'}} href={`https://lenscan.io/publication/${post.postId}`} target="_blank" rel="noreferrer">
+                                <a style={{color: 'black'}} href={`https://hey.xyz/posts/${post.postId}`} target="_blank" rel="noreferrer">
                                     @{post.handle}
                                 </a>
                             </span>
