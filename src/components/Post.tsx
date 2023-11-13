@@ -67,11 +67,11 @@ export const Post = (props: any) => {
                     <div className="post-hashtag">{details.tags && details.tags.filter(t => !!t).map(t => <span>#{t}&nbsp;</span>)}</div>
                 </div>
                 <div className="post-footer">
-                    <span>Comments:&nbsp;</span><b>{post.commentsCount}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>Collects:&nbsp;</span><b>{post.collectsCount}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>Comments:&nbsp;<b>{post.commentsCount}</b></span>
+                    <span>Collects:&nbsp;<b>{post.collectsCount}</b></span>
                     {/* do we need to hide zero mirrors */}
-                    {post.mirrorsCount > -1 ? <><span>Mirrors:&nbsp;</span><b>{post.mirrorsCount}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</> : null}
-                    {post.upvotesCount > -1 ? <><span>UpVotes:&nbsp;</span><b>{post.upvotesCount}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</> : null}
+                    {post.mirrorsCount > -1 ? <><span>Mirrors:&nbsp;<b>{post.mirrorsCount}</b></span></> : null}
+                    {post.upvotesCount > -1 ? <><span>UpVotes:&nbsp;<b>{post.upvotesCount}</b></span></> : null}
                 </div>
             </div>
         </div>
