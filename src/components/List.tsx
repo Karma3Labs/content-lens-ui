@@ -129,7 +129,7 @@ export default function List(props: any) {
 						{ name: 'Recent', strategy: 'recent', isDisabled: false },
 						{ name: 'Popular', strategy: 'popular', isDisabled: false },
 						{ name: 'Recommended', strategy: 'recommended', isDisabled: false },
-						{ name: 'Photography & Art', strategy: 'photoart', isDisabled: false }
+						{ name: 'Crowdsourced', strategy: 'crownsourced', isDisabled: false }
 					].map(btn => {
 						return <>
 							<Tooltip text={'Coming Soon'} isActive={btn.isDisabled}>
