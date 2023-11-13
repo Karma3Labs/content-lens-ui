@@ -84,7 +84,7 @@ export const getContent = async (contentUri: string) => {
 	}
 	var opts = {
 		headers: {
-			'mode':'no-cors' // posts through Yup app use s3 urls which require no-cors
+			'mode':'cors' // post media hosted on s3 and arweave.net end in cors errors
 		}
 	}
 	const results = await withRetry(() => fetch(contentUri, opts))
