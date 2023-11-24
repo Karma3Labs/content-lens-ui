@@ -252,6 +252,28 @@
   word-wrap: break-word;
 }
 
+.btn-subheader-description {
+  display: flex;
+  height: 3rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 2px #151218 solid;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.btn-subheader-description--inner {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: 'uppercase';
+  word-wrap: 'break-word'
+}
+
 .header-titles {
   gap: 1rem;
   display: flex;

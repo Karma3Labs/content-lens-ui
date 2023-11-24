@@ -104,6 +104,9 @@ export default function List(props: any) {
 					<div className="title">
 						<h1 className='header-text'>Content Feed</h1>
 						<h6 className='subheader-text'>Openly Verifiable Content Feed powered by EigenTrust</h6>
+						<button type='button' className='btn-subheader-description'>
+							<div className='btn-subheader-description--inner'>What is this?</div>
+						</button>
 					</div>
 					{!isFeed() && <>
 						<div className="strategies">
