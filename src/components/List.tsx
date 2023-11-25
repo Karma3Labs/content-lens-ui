@@ -14,6 +14,7 @@ import { Search } from './Search'
 import { Post } from './Post'
 import { useLoaderProvider } from './loader/LoaderProvider'
 import { Tooltip } from './Tooltip'
+import { About } from './About'
 
 const isFeed = () => true // window.location.pathname.indexOf('/feed') !== -1
 
@@ -53,6 +54,7 @@ export default function List(props: any) {
 
 	const { state: loaderState, dispatch: loaderActions } = useLoaderProvider()
 
+	const [isAboutOpen, setIsAboutOpen] = useState(false)
 
 	const filterData = useCallback(({ strategy }: { strategy: Strategy }) => {
 		setWindowParam('strategy', strategy)
@@ -62,6 +64,9 @@ export default function List(props: any) {
 		setPage(1)
 	}, [personalHandle])
 
+	const onAboutClick = () => {
+		setIsAboutOpen((isAbout) => !isAbout)
+	}
 
 	useEffect(() => {
 		loaderActions({ type: 'SET_LOADING', isLoading: true })
@@ -104,8 +109,10 @@ export default function List(props: any) {
 					<div className="title">
 						<h1 className='header-text'>Content Feed</h1>
 						<h6 className='subheader-text'>Openly Verifiable Content Feed powered by EigenTrust</h6>
-						<button type='button' className='btn-subheader-description'>
-							<div className='btn-subheader-description--inner'>What is this?</div>
+						<button type='button' className='btn-subheader-description' onClick={onAboutClick}>
+							<div className='btn-subheader-description--inner'>
+								{!isAboutOpen ? 'What is this?' : 'Close' }
+							</div>
 						</button>
 					</div>
 					{!isFeed() && <>
@@ -124,6 +131,7 @@ export default function List(props: any) {
 					</>}
 				</div>
 			</header>
+			{isAboutOpen && <About onClose={onAboutClick} /> }
 			<div className="container">
 				<div className="strategy-btn-wrapper">
 					{[
