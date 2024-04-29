@@ -90,17 +90,17 @@ export default function List(props: any) {
 					<div className="logos logos-flex">
 						<a href="https://k3l.io" target="_blank" rel="noreferrer">
 							<img
-								width="180px"
-								src="/images/k3l_logo_transparent.png"
+								width="280px"
+								src="/images/OpenRank_logo.png"
 								draggable="false"
-								alt="Karma3Labs Logo"
+								alt="OpenRank Logo"
 							/>
 						</a>
 						<div className="line"></div>
 						<a href="https://www.lens.xyz/" target="_blank" rel="noreferrer">
 							<img
-								width="50px"
-								src="/images/lens_logo_transparent.svg"
+								width="200px"
+								src="/images/lens-mini.png"
 								draggable="false"
 								alt="Lens Logo"
 							/>
